@@ -1,0 +1,73 @@
+	<!DOCTYPE html>
+<html>
+<head>
+    <title>Student App</title>
+</head>
+<body>
+
+<h2>Student Management</h2>
+
+<input type="text" id="studentId" placeholder="Student ID"><br><br>
+<input type="text" id="name" placeholder="Name"><br><br>
+<input type="number" id="age" placeholder="Age"><br><br>
+
+<button onclick="createStudent()">Create</button>
+<button onclick="getStudent()">Get</button>
+<button onclick="updateStudent()">Update</button>
+<button onclick="deleteStudent()">Delete</button>
+
+<h3>Response:</h3>
+<pre id="response"></pre>
+
+<script>
+
+const API_URL = "https://qu2tijgq6h.execute-api.us-east-1.amazonaws.com/devs/student";  // <-- CHANGE THIS
+
+function showResponse(data) {
+    document.getElementById("response").textContent = data;
+}
+
+function getFormData() {
+    return {
+        studentId: document.getElementById("studentId").value,
+        name: document.getElementById("name").value,
+        age: parseInt(document.getElementById("age").value)
+    };
+}
+
+async function createStudent() {
+    const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(getFormData())
+    });
+    showResponse(await res.text());
+}
+
+async function getStudent() {
+    const id = document.getElementById("studentId").value;
+    const res = await fetch(`${API_URL}?studentId=${id}`);
+    showResponse(await res.text());
+}
+
+async function updateStudent() {
+    const res = await fetch(API_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(getFormData())
+    });
+    showResponse(await res.text());
+}
+
+async function deleteStudent() {
+    const id = document.getElementById("studentId").value;
+    const res = await fetch(`${API_URL}?studentId=${id}`, {
+        method: "DELETE"
+    });
+    showResponse(await res.text());
+}
+
+</script>
+
+</body>
+</html>
