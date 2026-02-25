@@ -4,6 +4,9 @@
     <title>Student Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -117,16 +120,23 @@
             color: white;
             animation: fadeIn 0.3s ease;
             transition: 0.3s ease;
+
+            font-family: 'Poppins', sans-serif;
         }
 
         .modal-content h3 {
             text-align: center;
             margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: 'Poppins', sans-serif;
         }
 
         .modal-content p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
             margin: 10px 0;
-            padding: 8px 12px;
+            padding: 10px 14px;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
         }
@@ -146,7 +156,7 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        /* Color Themes */
+        /* Button Glow Themes */
         .create-theme { border-color: #00c6ff; box-shadow: 0 0 20px #00c6ff; }
         .get-theme { border-color: #42e695; box-shadow: 0 0 20px #42e695; }
         .update-theme { border-color: #ffd200; box-shadow: 0 0 20px #ffd200; }
@@ -183,7 +193,7 @@
     </div>
 </div>
 
-<!-- Glass Modal -->
+<!-- Glass Popup Modal -->
 <div id="responseModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -240,7 +250,6 @@ function getFormData() {
 
 async function createStudent() {
     const data = getFormData();
-
     if (!data.studentId || !data.name || !data.course || isNaN(data.age)) {
         showResponse("All fields must be filled with valid values.", "create");
         return;
@@ -257,7 +266,6 @@ async function createStudent() {
 
 async function getStudent() {
     const id = document.getElementById("studentId").value.trim();
-
     if (!id) {
         showResponse("Student ID is required.", "get");
         return;
@@ -269,7 +277,6 @@ async function getStudent() {
 
 async function updateStudent() {
     const data = getFormData();
-
     if (!data.studentId || !data.name || !data.course || isNaN(data.age)) {
         showResponse("All fields must be filled with valid values.", "update");
         return;
@@ -286,7 +293,6 @@ async function updateStudent() {
 
 async function deleteStudent() {
     const id = document.getElementById("studentId").value.trim();
-
     if (!id) {
         showResponse("Student ID is required.", "delete");
         return;
