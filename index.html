@@ -85,14 +85,51 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
 
-        .response-box {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.1);
-            font-size: 13px;
-            max-height: 180px;
-            overflow-y: auto;
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            width: 350px;
+            max-width: 90%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-content p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 22px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -123,9 +160,14 @@
         <button class="update" onclick="updateStudent()">Update</button>
         <button class="delete" onclick="deleteStudent()">Delete</button>
     </div>
+</div>
 
-    <div class="response-box">
-        <pre id="response"></pre>
+<!-- Modal -->
+<div id="responseModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3>Response</h3>
+        <div id="modalBody"></div>
     </div>
 </div>
 
@@ -133,12 +175,26 @@
 const API_URL = "https://oiaypazub7.execute-api.us-east-1.amazonaws.com/CRUD/students";
 
 function showResponse(data) {
+    const modal = document.getElementById("responseModal");
+    const modalBody = document.getElementById("modalBody");
+
+    modalBody.innerHTML = "";
+
     try {
-        const formatted = JSON.stringify(JSON.parse(data), null, 2);
-        document.getElementById("response").textContent = formatted;
+        const parsed = JSON.parse(data);
+
+        for (let key in parsed) {
+            modalBody.innerHTML += `<p><strong>${key}:</strong> ${parsed[key]}</p>`;
+        }
     } catch {
-        document.getElementById("response").textContent = data;
+        modalBody.innerHTML = `<p>${data}</p>`;
     }
+
+    modal.style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("responseModal").style.display = "none";
 }
 
 function getFormData() {
@@ -153,13 +209,8 @@ function getFormData() {
 async function createStudent() {
     const data = getFormData();
 
-    if (!data.studentId || !data.name || !data.age || !data.course) {
-        showResponse("All fields are required for Create.");
-        return;
-    }
-    
-    if (isNaN(data.age)) {
-        showResponse("Valid Age is required.");
+    if (!data.studentId || !data.name || !data.course || isNaN(data.age)) {
+        showResponse("All fields must be filled with valid values.");
         return;
     }
 
@@ -195,13 +246,8 @@ async function getStudent() {
 async function updateStudent() {
     const data = getFormData();
 
-    if (!data.studentId || !data.name || !data.age || !data.course) {
-        showResponse("All fields are required for Update.");
-        return;
-    }
-
-    if (isNaN(data.age)) {
-        showResponse("Valid Age is required.");
+    if (!data.studentId || !data.name || !data.course || isNaN(data.age)) {
+        showResponse("All fields must be filled with valid values.");
         return;
     }
 
@@ -240,9 +286,3 @@ async function deleteStudent() {
 
 </body>
 </html>
-
-
-
-
-
-
