@@ -145,7 +145,7 @@ function getFormData() {
     return {
         studentId: document.getElementById("studentId").value.trim(),
         name: document.getElementById("name").value.trim(),
-        age: parseInt(document.getElementById("age").value),
+        age: Number(document.getElementById("age").value),
         course: document.getElementById("course").value.trim()
     };
 }
@@ -155,6 +155,11 @@ async function createStudent() {
 
     if (!data.studentId || !data.name || !data.age || !data.course) {
         showResponse("All fields are required for Create.");
+        return;
+    }
+    
+    if (isNaN(data.age)) {
+        showResponse("Valid Age is required.");
         return;
     }
 
@@ -195,6 +200,11 @@ async function updateStudent() {
         return;
     }
 
+    if (isNaN(data.age)) {
+        showResponse("Valid Age is required.");
+        return;
+    }
+
     try {
         const res = await fetch(API_URL, {
             method: "PUT",
@@ -230,6 +240,7 @@ async function deleteStudent() {
 
 </body>
 </html>
+
 
 
 
