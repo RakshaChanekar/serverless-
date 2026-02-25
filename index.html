@@ -85,7 +85,7 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
 
-        /* Modal Styling */
+        /* Glass Modal */
         .modal {
             display: none;
             position: fixed;
@@ -94,43 +94,64 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background: white;
-            color: #333;
-            padding: 25px;
-            border-radius: 15px;
-            width: 350px;
+            position: relative;
+            width: 380px;
             max-width: 90%;
+            padding: 30px;
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            border: 2px solid white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+            color: white;
             animation: fadeIn 0.3s ease;
+            transition: 0.3s ease;
         }
 
         .modal-content h3 {
-            margin-bottom: 15px;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .modal-content p {
-            margin: 8px 0;
-            font-size: 14px;
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .close-btn {
-            float: right;
+            position: absolute;
+            right: 20px;
+            top: 15px;
             font-size: 22px;
             cursor: pointer;
             font-weight: bold;
+            color: white;
         }
 
         @keyframes fadeIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+
+        /* Color Themes */
+        .create-theme { border-color: #00c6ff; box-shadow: 0 0 20px #00c6ff; }
+        .get-theme { border-color: #42e695; box-shadow: 0 0 20px #42e695; }
+        .update-theme { border-color: #ffd200; box-shadow: 0 0 20px #ffd200; }
+        .delete-theme { border-color: #ff416c; box-shadow: 0 0 20px #ff416c; }
+
     </style>
 </head>
 <body>
@@ -162,7 +183,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Glass Modal -->
 <div id="responseModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -174,15 +195,26 @@
 <script>
 const API_URL = "https://oiaypazub7.execute-api.us-east-1.amazonaws.com/CRUD/students";
 
-function showResponse(data) {
+function showResponse(data, type) {
     const modal = document.getElementById("responseModal");
     const modalBody = document.getElementById("modalBody");
+    const modalContent = document.querySelector(".modal-content");
+
+    modalContent.classList.remove(
+        "create-theme",
+        "get-theme",
+        "update-theme",
+        "delete-theme"
+    );
+
+    if (type) {
+        modalContent.classList.add(type + "-theme");
+    }
 
     modalBody.innerHTML = "";
 
     try {
         const parsed = JSON.parse(data);
-
         for (let key in parsed) {
             modalBody.innerHTML += `<p><strong>${key}:</strong> ${parsed[key]}</p>`;
         }
@@ -210,77 +242,61 @@ async function createStudent() {
     const data = getFormData();
 
     if (!data.studentId || !data.name || !data.course || isNaN(data.age)) {
-        showResponse("All fields must be filled with valid values.");
+        showResponse("All fields must be filled with valid values.", "create");
         return;
     }
 
-    try {
-        const res = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+    const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
 
-        showResponse(await res.text());
-    } catch (err) {
-        showResponse("Error: " + err.message);
-    }
+    showResponse(await res.text(), "create");
 }
 
 async function getStudent() {
     const id = document.getElementById("studentId").value.trim();
 
     if (!id) {
-        showResponse("Student ID is required for Get.");
+        showResponse("Student ID is required.", "get");
         return;
     }
 
-    try {
-        const res = await fetch(`${API_URL}?studentId=${id}`);
-        showResponse(await res.text());
-    } catch (err) {
-        showResponse("Error: " + err.message);
-    }
+    const res = await fetch(`${API_URL}?studentId=${id}`);
+    showResponse(await res.text(), "get");
 }
 
 async function updateStudent() {
     const data = getFormData();
 
     if (!data.studentId || !data.name || !data.course || isNaN(data.age)) {
-        showResponse("All fields must be filled with valid values.");
+        showResponse("All fields must be filled with valid values.", "update");
         return;
     }
 
-    try {
-        const res = await fetch(API_URL, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+    const res = await fetch(API_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
 
-        showResponse(await res.text());
-    } catch (err) {
-        showResponse("Error: " + err.message);
-    }
+    showResponse(await res.text(), "update");
 }
 
 async function deleteStudent() {
     const id = document.getElementById("studentId").value.trim();
 
     if (!id) {
-        showResponse("Student ID is required for Delete.");
+        showResponse("Student ID is required.", "delete");
         return;
     }
 
-    try {
-        const res = await fetch(`${API_URL}?studentId=${id}`, {
-            method: "DELETE"
-        });
+    const res = await fetch(`${API_URL}?studentId=${id}`, {
+        method: "DELETE"
+    });
 
-        showResponse(await res.text());
-    } catch (err) {
-        showResponse("Error: " + err.message);
-    }
+    showResponse(await res.text(), "delete");
 }
 </script>
 
