@@ -26,7 +26,6 @@
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             color: white;
@@ -92,7 +91,7 @@
             border-radius: 12px;
             background: rgba(255,255,255,0.1);
             font-size: 13px;
-            max-height: 150px;
+            max-height: 180px;
             overflow-y: auto;
         }
     </style>
@@ -100,7 +99,7 @@
 <body>
 
 <div class="dashboard">
-    <h2> Student Management</h2>
+    <h2>Student Management</h2>
 
     <div class="input-group">
         <input type="text" id="studentId" placeholder="Student ID">
@@ -130,52 +129,99 @@
 const API_URL = "https://gh7ov6cx18.execute-api.us-east-1.amazonaws.com/CRUD/students";
 
 function showResponse(data) {
-    document.getElementById("response").textContent = data;
+    try {
+        const formatted = JSON.stringify(JSON.parse(data), null, 2);
+        document.getElementById("response").textContent = formatted;
+    } catch {
+        document.getElementById("response").textContent = data;
+    }
 }
 
 function getFormData() {
     return {
-        studentId: document.getElementById("studentId").value,
-        name: document.getElementById("name").value,
+        studentId: document.getElementById("studentId").value.trim(),
+        name: document.getElementById("name").value.trim(),
         age: parseInt(document.getElementById("age").value)
     };
 }
 
 async function createStudent() {
-    const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(getFormData())
-    });
-    showResponse(await res.text());
+    const data = getFormData();
+
+    if (!data.studentId || !data.name || !data.age) {
+        showResponse("All fields are required for Create.");
+        return;
+    }
+
+    try {
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        showResponse(await res.text());
+    } catch (err) {
+        showResponse("Error: " + err.message);
+    }
 }
 
 async function getStudent() {
-    const id = document.getElementById("studentId").value;
-    const res = await fetch(`${API_URL}?studentId=${id}`);
-    showResponse(await res.text());
+    const id = document.getElementById("studentId").value.trim();
+
+    if (!id) {
+        showResponse("Student ID is required for Get.");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}?studentId=${id}`);
+        showResponse(await res.text());
+    } catch (err) {
+        showResponse("Error: " + err.message);
+    }
 }
 
 async function updateStudent() {
-    const res = await fetch(API_URL, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(getFormData())
-    });
-    showResponse(await res.text());
+    const data = getFormData();
+
+    if (!data.studentId || !data.name || !data.age) {
+        showResponse("All fields are required for Update.");
+        return;
+    }
+
+    try {
+        const res = await fetch(API_URL, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        showResponse(await res.text());
+    } catch (err) {
+        showResponse("Error: " + err.message);
+    }
 }
 
 async function deleteStudent() {
-    const id = document.getElementById("studentId").value;
-    const res = await fetch(`${API_URL}?studentId=${id}`, {
-        method: "DELETE"
-    });
-    showResponse(await res.text());
+    const id = document.getElementById("studentId").value.trim();
+
+    if (!id) {
+        showResponse("Student ID is required for Delete.");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}?studentId=${id}`, {
+            method: "DELETE"
+        });
+
+        showResponse(await res.text());
+    } catch (err) {
+        showResponse("Error: " + err.message);
+    }
 }
 </script>
 
 </body>
 </html>
-
-
-
