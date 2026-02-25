@@ -145,7 +145,8 @@ function getFormData() {
     return {
         studentId: document.getElementById("studentId").value.trim(),
         name: document.getElementById("name").value.trim(),
-        age: parseInt(document.getElementById("age").value)
+        age: parseInt(document.getElementById("age").value),
+        course: document.getElementById("course").value.trim()
     };
 }
 
@@ -229,6 +230,7 @@ async function deleteStudent() {
 
 </body>
 </html>
+
 
 
 
