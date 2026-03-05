@@ -1,4 +1,4 @@
-# Student Management System
+# Student Management System (Serverless)
 
 A cloud-based serverless application to manage student data using AWS services.
 This project demonstrates how to build a scalable and cost-efficient backend using serverless architecture.
