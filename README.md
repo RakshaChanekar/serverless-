@@ -93,11 +93,8 @@ Aspiring AWS & DevOps Engineer
 LinkedIn:
 (https://www.linkedin.com/in/raksha-chanekar-06b736272/)
 
-GitHub:
-(Add y)
+GitHub Repo:
+(https://github.com/RakshaChanekar/serverless-.git)
 
 ---
 
-## License
-
-This project is for learning purposes.
