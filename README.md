@@ -80,6 +80,10 @@ student-management-system
 ├── lambda_function.py
 ├── architecture-diagram.png
 └── README.md
+<img width="1904" height="918" alt="image" src="https://github.com/user-attachments/assets/d2100530-969a-4011-80cb-a8ada59c70c2" />
+<img width="1917" height="894" alt="image" src="https://github.com/user-attachments/assets/f63c71f4-ad7f-4c6a-8e48-57b43b553ec0" />
+
+
 
 ## Author
 Raksha Chanekar
