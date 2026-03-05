@@ -1,8 +1,8 @@
 # Serverless Student Management System
 
 A cloud-based serverless application to manage student data using AWS services.
-
 This project demonstrates how to build a scalable and cost-efficient backend using serverless architecture.
+This Serverless Student Management System is built using AWS cloud services to manage student data without maintaining servers. First, a table is created in Amazon DynamoDB to store student records such as ID, name, and department. Then a backend function is developed using AWS Lambda to process requests like adding or retrieving student data. The requests from the frontend are handled through Amazon API Gateway, which connects the web application to the Lambda function. A simple frontend interface is built using HTML and JavaScript and deployed using AWS Amplify. When a user submits student information through the web page, the request flows from the frontend to API Gateway, triggers Lambda to process the data, and finally stores or retrieves the data from DynamoDB, creating a fully scalable and serverless application
 
 ---
 
