@@ -56,19 +56,7 @@ Cloud Platform:
 ---
 
 ## Architecture Diagram
-User
-|
-v
-Frontend (Amplify)
-|
-v
-API Gateway
-|
-v
-Lambda Function
-|
-v
-DynamoDB
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/e9275652-5d4c-4fc1-8052-cce46626e06b" />
 
 ---
 
@@ -80,11 +68,13 @@ student-management-system
 ├── lambda_function.py
 ├── architecture-diagram.png
 └── README.md
-<img width="1904" height="918" alt="image" src="https://github.com/user-attachments/assets/d2100530-969a-4011-80cb-a8ada59c70c2" />
-<img width="1917" height="894" alt="image" src="https://github.com/user-attachments/assets/f63c71f4-ad7f-4c6a-8e48-57b43b553ec0" />
-<img width="940" height="408" alt="image" src="https://github.com/user-attachments/assets/af3e1474-b3c8-4107-b89f-b5d35ecef455" />
-<img width="940" height="419" alt="image" src="https://github.com/user-attachments/assets/ffea8937-5cc3-4ca4-8363-357f1f74722d" />
-<img width="940" height="462" alt="image" src="https://github.com/user-attachments/assets/dc7a5511-46cc-4555-a7a4-38bea266061b" />
+
+<img width="940" height="471" alt="image" src="https://github.com/user-attachments/assets/383b0c3c-c53a-4229-827d-da0dd606ad6b" />
+<img width="940" height="453" alt="image" src="https://github.com/user-attachments/assets/7658a6e6-0447-4670-b3f1-d0dd8a302ee4" />
+<img width="940" height="419" alt="image" src="https://github.com/user-attachments/assets/43af7c30-74a8-411a-9add-73d37e66fda7" />
+<img width="940" height="408" alt="image" src="https://github.com/user-attachments/assets/5628ae1b-141c-49c6-bf3f-f6002e9c2971" />
+<img width="1881" height="868" alt="image" src="https://github.com/user-attachments/assets/f90f2b66-2670-4fa9-9494-7f594c158730" />
+
 
 ## Author
 Raksha Chanekar
